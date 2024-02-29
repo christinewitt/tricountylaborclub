@@ -5,6 +5,7 @@ import Card from '../../components/Card.astro';
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
 import FeatureLineItem from '../../components/FeatureLineItem.astro';
 import Pagination from '../../components/Pagination.astro';
+import { formatTime } from '../../lib/formatTime';
 import type { Event } from '../../lib/contentful';
 
 export async function getStaticPaths({ paginate }) {
@@ -21,17 +22,14 @@ export async function getStaticPaths({ paginate }) {
       month: 'long',
       day: 'numeric',
     }),
-    time: new Date(item.fields.date).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-    }),
+    time: item.fields.date,
     location: item.fields.location,
     content: documentToHtmlString(item.fields.details),
   }));
   return paginate(pages, { pageSize: 9 });
 }
 
-const { content, title, date, page } = Astro.props;
+const { page } = Astro.props;
 ---
 
 <DefaultLayout title='Events' description='Events'>
@@ -64,7 +62,10 @@ const { content, title, date, page } = Astro.props;
                     field={post.date}
                     image='/icons/calendar.svg'
                   />
-                  <FeatureLineItem field={post.time} image='/icons/clock.svg' />
+                  <FeatureLineItem
+                    field={formatTime(post.time)}
+                    image='/icons/clock.svg'
+                  />
                   {post.location && (
                     <FeatureLineItem
                       field={post.location}

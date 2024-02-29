@@ -1,9 +1,7 @@
 ---
-import DefaultLayout from '../layouts/DefaultLayout.astro';
 import { contentfulClient } from '../lib/contentful';
-import FeatureSection from '../components/FeatureSection.astro';
 import Feature from '../components/Feature.astro';
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import { formatTime } from '../lib/formatTime';
 import type { EntryFieldTypes } from 'contentful';
 import FeatureLineItem from '../components/FeatureLineItem.astro';
 
@@ -52,13 +50,7 @@ const title = 'Upcoming Events';
                   />
                 )}
                 <FeatureLineItem
-                  field={new Date(item.fields.date).toLocaleTimeString(
-                    'en-US',
-                    {
-                      hour: 'numeric',
-                      minute: '2-digit',
-                    }
-                  )}
+                  field={formatTime(item.fields.date)}
                   image='/icons/clock.svg'
                 />
                 {item.fields.location && (
