@@ -1,0 +1,165 @@
+---
+const { url = '#', img = '', title = 'Default title' } = Astro.props;
+---
+
+<div class='card'>
+  {
+    img && (
+      <div class='card__image'>
+        <img src={img} alt='' />
+      </div>
+    )
+  }
+  <div class='card__content'>
+    <h3>
+      {title}
+    </h3>
+    <p>
+      <slot>Default description.</slot>
+    </p>
+    <a class='arrow-link' href={url}>
+      Details
+      <span class='arrow'></span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    max-width: 60ch;
+    min-height: 100%;
+    position: relative;
+    width: calc(100% - 0.5rem);
+  }
+
+  .card > * {
+    z-index: 2;
+  }
+
+  .card::before,
+  .card::after {
+    content: '';
+    position: absolute;
+  }
+
+  .card::before {
+    inset: 0;
+    background-color: var(--neutral-100);
+    border: 3px solid var(--neutral-700);
+    border-radius: 1rem;
+    box-shadow: 0 0 0 6px var(--neutral-100);
+    z-index: 1;
+  }
+
+  .card::after {
+    background-color: var(--primary);
+    inset: 1rem -0.85rem -0.85rem 1rem;
+    border-radius: 1rem;
+    z-index: 0;
+  }
+
+  .card:hover::after {
+    background-color: var(--action-color-state);
+  }
+
+  .card__image {
+    height: 10rem;
+    border-top: 3px solid var(--neutral-700);
+    border-left: 3px solid var(--neutral-700);
+    border-right: 3px solid var(--neutral-700);
+    border-radius: 1rem;
+  }
+
+  .card__image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 1em 1em 0 0;
+  }
+
+  .card__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 2rem;
+  }
+
+  .card__content a {
+    text-decoration: none;
+  }
+
+  .card__content a:focus {
+    text-decoration: underline;
+  }
+
+  .card__content a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card__content:last-child {
+    margin-top: auto;
+  }
+
+  :global(.darkmode .card::before) {
+    background-color: var(--dark-100);
+    box-shadow: 0 0 0 6px var(--dark-100);
+  }
+
+  .arrow-link {
+    display: flex;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    cursor: pointer;
+    align-items: center;
+    letter-spacing: 2px;
+    text-decoration: none;
+    margin-top: 1rem;
+  }
+
+  .arrow-link > .arrow {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
+    position: relative;
+    transform: rotate(-45deg);
+    margin-left: 3px;
+    transition: all 0.3s ease;
+  }
+
+  .arrow-link > .arrow::before {
+    display: block;
+    background-color: var(--primary);
+    width: 3px;
+    transform-origin: bottom right;
+    height: 2px;
+    position: absolute;
+    opacity: 0;
+    bottom: calc(-2px / 2);
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+    content: '';
+    right: 0;
+  }
+
+  .arrow-link:hover > .arrow {
+    transform: rotate(-45deg) translate(4px, 4px);
+    border-color: var(--primary);
+  }
+
+  .arrow-link:hover > .arrow::before {
+    opacity: 1;
+    width: 8px;
+  }
+
+  .arrow-link:hover {
+    color: var(--primary);
+  }
+</style>

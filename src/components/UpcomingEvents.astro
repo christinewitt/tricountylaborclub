@@ -1,0 +1,181 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+import { contentfulClient } from '../lib/contentful';
+import FeatureSection from '../components/FeatureSection.astro';
+import Feature from '../components/Feature.astro';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import type { EntryFieldTypes } from 'contentful';
+import FeatureLineItem from '../components/FeatureLineItem.astro';
+
+interface Event {
+  contentTypeId: 'events';
+  fields: {
+    eventName: EntryFieldTypes.Text;
+    date: EntryFieldTypes.Date;
+    location: EntryFieldTypes.Text;
+    googeMapsLink: EntryFieldTypes.Text;
+    details: EntryFieldTypes.RichText;
+  };
+}
+
+const entries = await contentfulClient.getEntries<Event>({
+  content_type: 'events',
+});
+
+const title = 'Upcoming Events';
+---
+
+<section class='my-12'>
+  <div class='space-content container'>
+    <h2 class='feature-heading'>{title}</h2>
+    <div class='labor-club-grid'>
+      {
+        entries.items
+          .sort((a, b) => a.fields.date.localeCompare(b.fields.date))
+          .filter((item) => new Date(item.fields.date) > new Date())
+          .slice(0, 3)
+          .map((item) => (
+            <Feature title={item.fields.eventName}>
+              <div class='details'>
+                {item.fields.date && (
+                  <FeatureLineItem
+                    field={new Date(item.fields.date).toLocaleDateString(
+                      'en-US',
+                      {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      }
+                    )}
+                    image='/icons/calendar.svg'
+                  />
+                )}
+                <FeatureLineItem
+                  field={new Date(item.fields.date).toLocaleTimeString(
+                    'en-US',
+                    {
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    }
+                  )}
+                  image='/icons/clock.svg'
+                />
+                {item.fields.location && (
+                  <FeatureLineItem
+                    field={item.fields.location}
+                    image='/icons/location.svg'
+                  />
+                )}
+              </div>
+              <a
+                class='arrow-link'
+                href={
+                  '/events/' +
+                  item.fields.eventName.replaceAll(' ', '-').toLowerCase()
+                }
+              >
+                Details
+                <span class='arrow' />
+              </a>
+            </Feature>
+          ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .labor-club-grid {
+    gap: 3rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    display: grid;
+  }
+  @media (min-width: 768px) {
+    .labor-club-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .labor-club-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .feature-heading {
+    text-align: center;
+  }
+
+  .feature-heading::after {
+    border-bottom: 4px solid var(--primary);
+    bottom: 0;
+    clear: both;
+    content: '';
+    display: block;
+    height: 1px;
+    left: 0;
+    margin: 0 auto;
+    padding: 0.5rem 0px;
+    position: relative;
+    width: 15%;
+  }
+
+  @media (max-width: 768px) {
+    .feature-heading::after {
+      width: 30%;
+    }
+  }
+
+  .arrow-link {
+    display: flex;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    cursor: pointer;
+    align-items: center;
+    letter-spacing: 2px;
+    text-decoration: none;
+    margin-top: 1rem;
+  }
+
+  .arrow-link > .arrow {
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
+    position: relative;
+    transform: rotate(-45deg);
+    margin-left: 3px;
+    transition: all 0.3s ease;
+  }
+
+  .arrow-link > .arrow::before {
+    display: block;
+    background-color: var(--primary);
+    width: 3px;
+    transform-origin: bottom right;
+    height: 2px;
+    position: absolute;
+    opacity: 0;
+    bottom: calc(-2px / 2);
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+    content: '';
+    right: 0;
+  }
+
+  .arrow-link:hover > .arrow {
+    transform: rotate(-45deg) translate(4px, 4px);
+    border-color: var(--primary);
+  }
+
+  .arrow-link:hover > .arrow::before {
+    opacity: 1;
+    width: 8px;
+  }
+
+  .arrow-link:hover {
+    color: var(--primary);
+  }
+</style>

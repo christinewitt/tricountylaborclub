@@ -1,0 +1,57 @@
+---
+import Navigation from '../components/Navigation.astro';
+---
+
+<header>
+  <Navigation>
+    <li class='menu-item'>
+      <a href='/'>Home</a>
+    </li>
+    <li class='menu-item'>
+      <a href='/events/'>Events</a>
+    </li>
+    <li class='menu-item'>
+      <a href='/labor-clubs/'>Labor Clubs</a>
+    </li>
+    <!-- <li class='menu-item has-dropdown'>
+      <button aria-haspopup='true' aria-expanded='false'>Example Pages</button>
+      <ul class='dropdown-menu'>
+        <li class='submenu-item'>
+          <a href='/markdown-page/'>Markdown Page</a>
+        </li>
+        <li class='submenu-item'>
+          <a href='/accessible-components'>Accessible Components</a>
+        </li>
+      </ul>
+    </li> -->
+  </Navigation>
+</header>
+
+<style is:global>
+  *:focus,
+  *:focus-visible {
+    outline: 2px dotted black;
+    outline-color: black;
+    outline-offset: 0;
+    -webkit-box-shadow: 0 0 0 2px white;
+    box-shadow: 0 0 0 2px white;
+  }
+  *:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
+  header .type-icon a {
+    display: block;
+  }
+  header .type-icon a [data-icon] {
+    height: auto;
+    margin-top: -4px;
+    width: 30px;
+  }
+  header .type-icon a [data-icon] path {
+    fill: var(--action-color);
+  }
+  header .type-icon a:hover [data-icon] path {
+    fill: var(--action-color-state);
+  }
+</style>

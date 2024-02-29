@@ -1,0 +1,112 @@
+---
+import Feature from './Feature.astro';
+
+const defaultData = [
+  {
+    title: 'Tailwind CSS',
+    description:
+      'Use the power of Tailwind to greatly improve your productivity and enhance your developer workflow.',
+  },
+  {
+    title: 'a11y Components',
+    description:
+      '17 components and counting, all tried and tested for the most optimal accessible experience for your visitors.',
+  },
+  {
+    title: 'Prettier',
+    description:
+      'Less worry about formatting your code, let the Astro Prettier integration do the heavy lifting.',
+  },
+  {
+    title: 'ESLint',
+    description:
+      'Lint your code with strict a11y settings to ensure you stay on track with the WCAG standards.',
+  },
+  {
+    title: 'Blog',
+    description:
+      'This theme comes with a fully integrated blog, dynamic pages and SEO optimization.',
+  },
+  {
+    title: 'Markdown & MDX',
+    description:
+      'Easily use .md and .mdx pages to build your websites or use it with Netlify CMS.',
+  },
+  {
+    title: 'Dark mode',
+    description:
+      'Fully integrated Dark mode gives your users the choice for their favorite viewing mode.',
+  },
+  {
+    title: 'Design System',
+    description:
+      'The theme offers some very handy utilities to help you build your website faster.',
+  },
+  {
+    title: 'Lighthouse Scores',
+    description:
+      'Excellent lighthouse scores means your website will load faster and get better SEO rankings.',
+  },
+];
+const { title, data = defaultData } = Astro.props;
+---
+
+<section class='feature-section'>
+  <div class='container'>
+    {title && <h2 class='feature-heading'>{title}</h2>}
+    <div class='feature-grid'>
+      {
+        data.map((item) => (
+          <Feature title={item.title}>{item.description}</Feature>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature-section {
+    margin-top: 16rem;
+    margin-bottom: 16rem;
+  }
+
+  .feature-heading {
+    font-size: 3.75rem;
+    line-height: 1;
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .feature-heading::after {
+    display: block;
+    clear: both;
+    content: '';
+    position: relative;
+    left: 0;
+    bottom: 0;
+    max-width: 250px;
+    height: 1px;
+    width: 15%;
+    border-bottom: 4px solid var(--primary);
+    margin: 0 auto;
+    padding: 1rem 0px;
+  }
+
+  .feature-grid {
+    gap: 3rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    display: grid;
+  }
+
+  @media (min-width: 768px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

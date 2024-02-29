@@ -1,0 +1,233 @@
+---
+import { contentfulClient } from '../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import { LaborClub } from '../lib/contentful';
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+import Feature from '../components/Feature.astro';
+import FeatureLineItem from '../components/FeatureLineItem.astro';
+
+const entries = await contentfulClient.getEntries<LaborClub>({
+  content_type: 'laborClubs',
+});
+
+const laborClubs = entries.items
+  .map((data) => {
+    const {
+      name,
+      meeting,
+      meetingTime,
+      locationName,
+      streetAddress,
+      cityStateZip,
+      googleMapsLink,
+      phoneNumber,
+      presidentName,
+      presidentEmail,
+      presidentAddress,
+      vicePresidentName,
+      vicePresidentEmail,
+      vicePresidentAddress,
+      additionalPersonName,
+      additionalPersonEmail,
+      treasurerName,
+      treasurerEmail,
+      recordingSecretaryName,
+      recordingSecretaryEmail,
+      notes,
+    } = data.fields;
+
+    return {
+      name,
+      meeting,
+      meetingTime,
+      locationName,
+      streetAddress,
+      cityStateZip,
+      googleMapsLink,
+      phoneNumber,
+      presidentName,
+      presidentEmail,
+      presidentAddress,
+      vicePresidentName,
+      vicePresidentEmail,
+      vicePresidentAddress,
+      additionalPersonName,
+      additionalPersonEmail,
+      treasurerName,
+      treasurerEmail,
+      recordingSecretaryName,
+      recordingSecretaryEmail,
+      notes: documentToHtmlString(notes),
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const title = 'Labor Clubs';
+---
+
+<DefaultLayout
+  title={title}
+  description='Labor legislative clubs established throughout the St. Louis area and other parts of Eastern Missouri.'
+>
+  <section class='labor-club-page'>
+    <div class='space-content container'>
+      <h1>{title}</h1>
+      <p class='intro'>
+        There are labor legislative clubs established throughout the St. Louis
+        area and other parts of Eastern Missouri. Every union person should
+        <strong>become a member</strong> of a club established in your area. <strong
+        >
+          Get involved
+        </strong> and <strong>help elect candidates</strong> who will help us in
+        our struggle to provide decent lives for our families. To join, come to the
+        next meeting—or contact a spokesman for the club nearest you.
+      </p>
+      <div class='labor-club-grid'>
+        {
+          laborClubs.map((club) => (
+            <Feature title={club.name}>
+              {club.meeting && (
+                <FeatureLineItem
+                  field={club.meeting}
+                  image='/icons/calendar.svg'
+                />
+              )}
+              {club.meetingTime && (
+                <FeatureLineItem
+                  field={club.meetingTime}
+                  image='/icons/clock.svg'
+                />
+              )}
+              {club.locationName && (
+                <FeatureLineItem
+                  field={club.locationName}
+                  image='/icons/location.svg'
+                />
+              )}
+              {club.streetAddress && (
+                <FeatureLineItem
+                  field={`<a href='${club.googleMapsLink}' target='_blank'>${club.streetAddress}, ${club.cityStateZip}</a>`}
+                  image='/icons/map.svg'
+                />
+              )}
+              {club.phoneNumber && (
+                <FeatureLineItem
+                  field={club.phoneNumber}
+                  image='/icons/phone.svg'
+                />
+              )}
+              {club.locationName && <br />}
+              {club.presidentName && (
+                <FeatureLineItem
+                  field={club.presidentName}
+                  image='/icons/user.svg'
+                />
+              )}
+              {club.presidentEmail && (
+                <FeatureLineItem
+                  field={club.presidentEmail}
+                  image='/icons/envelope.svg'
+                />
+              )}
+              {club.presidentAddress && (
+                <FeatureLineItem
+                  field={club.presidentAddress}
+                  image='/icons/location.svg'
+                />
+              )}
+              {club.presidentName && <br />}
+              {club.vicePresidentName && (
+                <FeatureLineItem
+                  field={club.vicePresidentName}
+                  image='/icons/user.svg'
+                />
+              )}
+              {club.vicePresidentEmail && (
+                <FeatureLineItem
+                  field={club.vicePresidentEmail}
+                  image='/icons/envelope.svg'
+                />
+              )}
+              {club.vicePresidentAddress && (
+                <FeatureLineItem
+                  field={club.vicePresidentAddress}
+                  image='/icons/location.svg'
+                />
+              )}
+              {club.vicePresidentName && <br />}
+              {club.additionalPersonName && (
+                <FeatureLineItem
+                  field={club.additionalPersonName}
+                  image='/icons/user.svg'
+                />
+              )}
+              {club.additionalPersonEmail && (
+                <FeatureLineItem
+                  field={club.additionalPersonEmail}
+                  image='/icons/envelope.svg'
+                />
+              )}
+              {club.additionalPersonName && <br />}
+              {club.treasurerName && (
+                <FeatureLineItem
+                  field={club.treasurerName}
+                  image='/icons/dollar.svg'
+                />
+              )}
+              {club.treasurerEmail && (
+                <FeatureLineItem
+                  field={club.treasurerEmail}
+                  image='/icons/envelope.svg'
+                />
+              )}
+              {club.treasurerName && <br />}
+              {club.recordingSecretaryName && (
+                <FeatureLineItem
+                  field={club.recordingSecretaryName}
+                  image='/icons/pencil.svg'
+                />
+              )}
+              {club.recordingSecretaryEmail && (
+                <FeatureLineItem
+                  field={club.recordingSecretaryEmail}
+                  image='/icons/envelope.svg'
+                />
+              )}
+              {club.notes && (
+                <br />
+                <FeatureLineItem
+                  field={club.notes}
+                  image='/icons/sticky-note.svg'
+                />
+              )}
+            </Feature>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</DefaultLayout>
+
+<style>
+  .labor-club-page {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .intro {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .labor-club-grid {
+    gap: 3rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    display: grid;
+  }
+
+  @media (min-width: 768px) {
+    .labor-club-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

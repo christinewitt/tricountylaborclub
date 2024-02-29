@@ -1,0 +1,30 @@
+---
+import DarkMode from './DarkMode.astro';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+  <section>
+    <div class='container'>
+      <p>
+        Tri-County Labor Legislative Club
+        <br />
+        10 Droste Square St. Charles, MO 63301
+      </p>
+      <DarkMode />
+    </div>
+  </section>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--primary);
+    text-align: center;
+    margin-top: 5rem;
+  }
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+</style>

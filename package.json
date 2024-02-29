@@ -1,0 +1,17 @@
+{
+  "name": "tricountylaborclub",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@contentful/rich-text-html-renderer": "^16.3.4",
+    "astro": "^4.4.4",
+    "contentful": "^10.6.22"
+  }
+}

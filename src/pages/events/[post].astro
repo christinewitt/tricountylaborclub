@@ -1,0 +1,161 @@
+---
+import { contentfulClient } from '../../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import type { Event } from '../../lib/contentful';
+import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BreadcrumbsItem from '../../components/BreadcrumbsItem.astro';
+
+export async function getStaticPaths() {
+  const { items } = await contentfulClient.getEntries<Event>({
+    content_type: 'events',
+  });
+
+  console.log(items);
+
+  return items.map((post) => {
+    return {
+      params: {
+        post: post.fields.eventName.replaceAll(' ', '-').toLowerCase(),
+      },
+      props: {
+        eventName: post.fields.eventName,
+        date: new Date(post.fields.date).toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+        time: new Date(post.fields.date).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+        location: post.fields.location,
+        streetAddress: post.fields.streetAddress,
+        cityStateZip: post.fields.cityStateZip,
+        googleMapsLink: post.fields.googleMapsLink,
+        details: documentToHtmlString(post.fields.details),
+      },
+    };
+  });
+}
+
+const {
+  cityStateZip,
+  date,
+  details,
+  eventName,
+  googleMapsLink,
+  location,
+  streetAddress,
+  time,
+} = Astro.props;
+console.log('post:', Astro.props);
+---
+
+<DefaultLayout
+  title={eventName}
+  description={details}
+  url={eventName.replaceAll(' ', '-').toLowerCase()}
+>
+  <Breadcrumbs>
+    <BreadcrumbsItem href='/' label='Home' />
+    <BreadcrumbsItem href='/events' label='Events' />
+    <BreadcrumbsItem currentPage={true} label={eventName} />
+  </Breadcrumbs>
+  <section class='section-title my-12'>
+    <div class='container'>
+      <h1>{eventName}</h1>
+    </div>
+  </section>
+  <section class='section-details'>
+    <div class='container'>
+      {
+        date && (
+          <div class='line-item-wrapper'>
+            <img class='icon' src='/icons/calendar.svg' alt='' />
+            <span>{date}</span>
+          </div>
+        )
+      }
+      {
+        time && (
+          <div class='line-item-wrapper'>
+            <img class='icon' src='/icons/clock.svg' alt='' />
+            <span>{time}</span>
+          </div>
+        )
+      }
+      {
+        location && (
+          <div class='line-item-wrapper'>
+            <img class='icon' src='/icons/location.svg' alt='' />
+            <span>{location}</span>
+          </div>
+        )
+      }
+      {
+        streetAddress && (
+          <div class='line-item-wrapper'>
+            <img class='icon' src='/icons/map.svg' alt='' />
+            <span>
+              {googleMapsLink ? (
+                <a href={googleMapsLink} target='_blank'>
+                  {streetAddress}, {cityStateZip}
+                </a>
+              ) : (
+                `${streetAddress}, ${cityStateZip}`
+              )}
+            </span>
+          </div>
+        )
+      }
+      {
+        details && (
+          <>
+            <div class='detail-divder' />
+            <div class='details' set:html={details} />
+          </>
+        )
+      }
+    </div>
+  </section>
+</DefaultLayout>
+
+<style>
+  .section-title {
+    background-color: var(--primary-100);
+    color: var(--neutral-100);
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+    padding: 2rem 0;
+    text-align: center;
+  }
+  .section-details {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  .detail-divder {
+    background: linear-gradient(315deg, var(--primary-300), var(--primary-100));
+    height: 0.25rem;
+    margin: 1rem 0;
+  }
+  .icon {
+    fill: black;
+  }
+  :global(.darkmode .icon) {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%)
+      hue-rotate(100deg);
+  }
+  .line-item-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .line-item-wrapper > img {
+    height: 1rem;
+    width: 1rem;
+  }
+  .line-item-wrapper > span {
+    margin-left: 0.5rem;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+const { secondary = false } = Astro.props;
+---
+
+<section class:list={['section', { secondary: secondary }]}>
+  <div class='container'>
+    <slot
+      >Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, corporis.</slot
+    >
+  </div>
+
+  <style>
+    .section {
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+    .secondary {
+      background-color: var(--neutral-300);
+    }
+    :global(.darkmode .secondary) {
+      background-color: var(--neutral-700);
+    }
+  </style>
+</section>

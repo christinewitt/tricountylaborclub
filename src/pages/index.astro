@@ -1,0 +1,58 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+import Hero from '../components/Hero.astro';
+import Image from 'astro/components/Image.astro';
+import logo from '../assets/img/tricotri.png';
+import Section from '../components/Section.astro';
+import UpcomingEvents from '../components/UpcomingEvents.astro';
+---
+
+<DefaultLayout title='Home'>
+  <Hero />
+  <Section secondary={true}>
+    <div class='section'>
+      <div class='section-content'>
+        <h2>Our Mission</h2>
+        <p>
+          It is our mission to unite those sympathetic to the labor movement,
+          engender and nurture the principles and philosophies which have
+          elicited legislation that safeguards and enables all working men and
+          women of Missouri the opportunity to adequately provide for the
+          welfare of themselves and their families. Moreover, to provide a forum
+          for which labor legislative issues and concerns are discussed and
+          resolved utilizing the political process, and provide a vehicle by
+          which members receive the support and guidance necessary when seeking
+          public office, and to inculcate upon our membership the importance of
+          community involvement.
+        </p>
+      </div>
+      <div class='section-image'>
+        <Image
+          src={logo}
+          alt='Tri-County Labor Club Joined Together for Labor'
+          loading='eager'
+          height='200'
+          width='300'
+        />
+      </div>
+    </div>
+  </Section>
+  <UpcomingEvents title='Upcoming Events' />
+</DefaultLayout>
+
+<style>
+  .section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .section-content {
+    flex: 100%;
+    @media (min-width: 768px) {
+      flex: 1;
+    }
+  }
+</style>

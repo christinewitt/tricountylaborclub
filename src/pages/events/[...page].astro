@@ -1,0 +1,134 @@
+---
+import { contentfulClient } from '../../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import Card from '../../components/Card.astro';
+import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import FeatureLineItem from '../../components/FeatureLineItem.astro';
+import Pagination from '../../components/Pagination.astro';
+import type { Event } from '../../lib/contentful';
+
+export async function getStaticPaths({ paginate }) {
+  const { items } = await contentfulClient.getEntries<Event>({
+    content_type: 'events',
+  });
+
+  const pages = items.map((item) => ({
+    title: item.fields.eventName,
+    unformattedDate: item.fields.date,
+    date: new Date(item.fields.date).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    time: new Date(item.fields.date).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+    }),
+    location: item.fields.location,
+    content: documentToHtmlString(item.fields.details),
+  }));
+  return paginate(pages, { pageSize: 9 });
+}
+
+const { content, title, date, page } = Astro.props;
+console.dir(page, { depth: null });
+---
+
+<DefaultLayout title='Events' description='Events'>
+  <section class='section'>
+    <div class='space-content container'>
+      <h1>Events</h1>
+      <p class='intro'></p>
+    </div>
+  </section>
+  <section class='section'>
+    <div class='container'>
+      <p class='text-sm'>
+        <em
+          >Event {page.start + 1} through {page.end + 1} of {page.total} total events</em
+        >
+      </p>
+      <ul class='my-3'>
+        {
+          page.data
+            .sort((a, b) => b.unformattedDate.localeCompare(a.unformattedDate))
+            .map((post) => (
+              <li>
+                <Card
+                  url={
+                    '/events/' + post.title.replaceAll(' ', '-').toLowerCase()
+                  }
+                  title={post.title}
+                >
+                  <FeatureLineItem
+                    field={post.date}
+                    image='/icons/calendar.svg'
+                  />
+                  <FeatureLineItem field={post.time} image='/icons/clock.svg' />
+                  {post.location && (
+                    <FeatureLineItem
+                      field={post.location}
+                      image='/icons/location.svg'
+                    />
+                  )}
+                </Card>
+              </li>
+            ))
+        }
+      </ul>
+      <div class='pagination'>
+        <Pagination
+          firstPage={page.url.prev ? '/events' : null}
+          previousPage={page.url.prev ? page.url.prev : null}
+          nextPage={page.url.next ? page.url.next : null}
+          lastPage={page.url.next
+            ? `/events/${Math.round(page.total / page.size)}`
+            : null}
+          currentPage={page.currentPage}
+          totalPages={Math.round(page.total / page.size)}
+        />
+      </div>
+    </div>
+  </section>
+</DefaultLayout>
+
+<style>
+  ul {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 4rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+
+    @media (min-width: 550px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 2rem;
+    }
+
+    @media (min-width: 950px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .section {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .intro {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .pagination {
+    display: grid;
+    place-content: center;
+    margin-top: 3rem;
+  }
+</style>

@@ -1,0 +1,134 @@
+@import url(./reset.css);
+@import url(./button.css);
+@import url(./fonts.css);
+@import url(./list.css);
+@import url(./space-content.css);
+
+:root {
+  --primary: #009b77;
+  --primary-100: #009b77;
+  --primary-200: #00CC9C;
+  --primary-300: #00F5BC;
+  --primary-400: #1FFFCB;
+  --primary-500: #5CFFD9;
+  --secondary-100: #1831F2;
+  --secondary-200: #0C24D4;
+  --secondary-300: #0A1DAE;
+  --secondary-400: #081787;
+  --secondary-500: #050E53;
+  /* --primary-100: #d494ff;
+  --primary-200: #bc72ee;
+  --primary-300: #8a3bbf;
+  --primary-400: #8a2cc9;
+  --primary-500: #3d0264; */
+  /* --secondary-100: #6befe0;
+  --secondary-200: #55ecdb;
+  --secondary-300: #42e0ce;
+  --secondary-400: #1ed2bd;
+  --secondary-500: #089181; */
+  --neutral-100: #ffffff;
+  --neutral-200: #f6f8f9;
+  --neutral-300: #f1f3f4;
+  --neutral-400: #dde1e4;
+  --neutral-500: #ced4d9;
+  --neutral-600: #858d93;
+  --neutral-700: #494f55;
+  --neutral-800: #33383d;
+  --neutral-900: #202427;
+  --dark-100: #161618;
+  --radius-small: 3px;
+  --radius-large: 6px;
+  --gap-default: 2rem;
+  --font-measure: 70ch;
+  --font-family-default: 'Open Sans', sans-serif;
+  --font-family-special: 'Open Sans', sans-serif;
+  --font-color: var(--neutral-900);
+  --action-color: var(--primary);
+  --action-color-state: var(--primary);
+  --background: var(--neutral-100);
+  --primary-background: var(--primary-100);
+  --neutral-background: var(--neutral-200);
+}
+
+.darkmode {
+  --font-color: var(--neutral-100);
+  --action-color: var(--primary);
+  --action-color-state: var(--primary);
+  --background: var(--dark-100);
+  --primary-background: var(--primary-500);
+  --neutral-background: var(--neutral-900);
+}
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  color: var(--font-color);
+  background-color: var(--background);
+}
+
+body main {
+  flex: 1 0 auto;
+}
+
+body footer {
+  flex-shrink: 0;
+}
+
+pre {
+  padding: 1rem;
+  border-radius: 0.35rem;
+  border: 2px solid var(--action-color);
+}
+
+body .pagination a:hover,
+body .pagination a:focus-visible {
+  background-color: var(--action-color-state);
+}
+
+body .pagination a:hover svg path,
+body .pagination a:focus-visible svg path {
+  stroke: white;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 calc(2rem / 2);
+  max-width: 100%;
+}
+
+@media (min-width: 48em) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 75em) {
+  .container {
+    padding: 0 calc(2rem / 2);
+    max-width: 1200px;
+  }
+}
+
+.container.stretch {
+  max-width: 100%;
+}
+
+*:focus,
+*:focus-visible {
+  outline: 2px dotted black;
+  outline-color: black;
+  outline-offset: 0;
+  -webkit-box-shadow: 0 0 0 2px white;
+  box-shadow: 0 0 0 2px white;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
