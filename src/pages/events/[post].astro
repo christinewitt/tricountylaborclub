@@ -11,8 +11,6 @@ export async function getStaticPaths() {
     content_type: 'events',
   });
 
-  console.log(items);
-
   return items.map((post) => {
     return {
       params: {
@@ -50,7 +48,6 @@ const {
   streetAddress,
   time,
 } = Astro.props;
-console.log('post:', Astro.props);
 ---
 
 <DefaultLayout
