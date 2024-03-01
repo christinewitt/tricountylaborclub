@@ -9,7 +9,7 @@ const {
   title = 'Tri-County Labor Club',
   description = 'Tri-County Labor Legislative Club: Joined together for labor.',
   url,
-  image = '/social-preview-image.png',
+  image = '/joined-together.png',
 } = Astro.props;
 ---
 
@@ -32,14 +32,19 @@ const {
     <meta http-equiv='X-UA-Compatible' content='ie=edge' />
 
     <!-- favicon -->
-    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
+    <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
+    <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
+    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
 
     <SiteMeta
       title={title}
       description={description.substring(0, 100)}
-      url={Astro.site
-        ? `${Astro.site}/${title.toLowerCase().replaceAll(' ', '-')}`
-        : `https://tricountylaborclub.com/${title.toLowerCase().replaceAll(' ', '-')}`}
+      url={url
+        ? `https://tricountylaborclub.com/${url}`
+        : Astro.site
+          ? `${Astro.site}/${title.toLowerCase().replaceAll(' ', '-')}`
+          : `https://tricountylaborclub.com/${title.toLowerCase().replaceAll(' ', '-')}`}
       image={image}
     />
   </head>
