@@ -15,9 +15,10 @@ export async function getStaticPaths() {
   return items.map((post) => {
     return {
       params: {
-        post: post.fields.eventName.replaceAll(' ', '-').toLowerCase(),
+        post: post.fields.slug,
       },
       props: {
+        slug: post.fields.slug,
         eventName: post.fields.eventName,
         date: new Date(post.fields.date).toLocaleDateString('en-US', {
           weekday: 'long',
@@ -43,6 +44,7 @@ const {
   eventName,
   googleMapsLink,
   location,
+  slug,
   streetAddress,
   time,
 } = Astro.props;
@@ -50,8 +52,8 @@ const {
 
 <DefaultLayout
   title={eventName}
-  description={details}
-  url={eventName.replaceAll(' ', '-').toLowerCase()}
+  description={`Join us for the ${eventName} on ${date} ${location ? `at ${location}` : ''}`}
+  url={slug}
 >
   <Breadcrumbs>
     <BreadcrumbsItem href='/' label='Home' />

@@ -14,6 +14,7 @@ export async function getStaticPaths({ paginate }) {
   });
 
   const pages = items.map((item) => ({
+    slug: item.fields.slug,
     title: item.fields.eventName,
     unformattedDate: item.fields.date,
     date: new Date(item.fields.date).toLocaleDateString('en-US', {
@@ -32,7 +33,10 @@ export async function getStaticPaths({ paginate }) {
 const { page } = Astro.props;
 ---
 
-<DefaultLayout title='Events' description='Events'>
+<DefaultLayout
+  title='Events'
+  description='Stay up to date with our latest events and activities.'
+>
   <section class='section'>
     <div class='space-content container'>
       <h1>Events</h1>
@@ -52,12 +56,7 @@ const { page } = Astro.props;
             .sort((a, b) => b.unformattedDate.localeCompare(a.unformattedDate))
             .map((post) => (
               <li>
-                <Card
-                  url={
-                    '/events/' + post.title.replaceAll(' ', '-').toLowerCase()
-                  }
-                  title={post.title}
-                >
+                <Card url={'/events/' + post.slug} title={post.title}>
                   <FeatureLineItem
                     field={post.date}
                     image='/icons/calendar.svg'
