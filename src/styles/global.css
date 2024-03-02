@@ -132,3 +132,17 @@ body .pagination a:focus-visible svg path {
   outline: none;
   box-shadow: none;
 }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  border-left: 3px solid var(--primary);
+  font-size: 14px;
+  line-height: normal;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+}

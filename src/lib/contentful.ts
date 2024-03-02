@@ -11,6 +11,7 @@ export const contentfulClient = contentful.createClient({
 export interface Event {
   contentTypeId: 'events';
   fields: {
+    slug: EntryFieldTypes.Text;
     eventName: EntryFieldTypes.Text;
     date: EntryFieldTypes.Date;
     location: EntryFieldTypes.Text;
@@ -45,5 +46,34 @@ export interface LaborClub {
     recordingSecretaryName: EntryFieldTypes.Text;
     recordingSecretaryEmail: EntryFieldTypes.Text;
     notes: EntryFieldTypes.RichText;
+  };
+}
+
+export interface News {
+  contentTypeId: 'news';
+  fields: {
+    slug: EntryFieldTypes.Text;
+    postTitle: EntryFieldTypes.Text;
+    postDate: EntryFieldTypes.Date;
+    body: EntryFieldTypes.RichText;
+  };
+}
+
+export interface Officers {
+  contentTypeId: 'officers';
+  fields: {
+    title: EntryFieldTypes.Text;
+    name: EntryFieldTypes.Text;
+    local: EntryFieldTypes.Date;
+    order: EntryFieldTypes.Integer;
+  };
+}
+
+export interface ExecutiveBoard {
+  contentTypeId: 'executiveBoard';
+  fields: {
+    local: EntryFieldTypes.Text;
+    members: EntryFieldTypes.Text;
+    order: EntryFieldTypes.Integer;
   };
 }
