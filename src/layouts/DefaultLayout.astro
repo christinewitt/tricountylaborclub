@@ -41,7 +41,7 @@ const {
       title={title}
       description={description.substring(0, 100)}
       url={url
-        ? `https://tricountylaborclub.com/${url}`
+        ? `https://tricountylaborclub.com${url}`
         : Astro.site
           ? `${Astro.site}${title.toLowerCase().replaceAll(' ', '-')}`
           : `https://tricountylaborclub.com/${title.toLowerCase().replaceAll(' ', '-')}`}
