@@ -115,4 +115,11 @@ const { details, postDate, postImage, postTitle, slug } = Astro.props;
   .line-item-wrapper > span {
     margin-left: 0.5rem;
   }
+  :global(h3) {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  :global(tr:nth-child(odd)) {
+    background-color: var(--neutral-300);
+  }
 </style>
