@@ -2,19 +2,8 @@
 import { contentfulClient } from '../lib/contentful';
 import Feature from '../components/Feature.astro';
 import { formatTime } from '../lib/formatTime';
-import type { EntryFieldTypes } from 'contentful';
 import FeatureLineItem from '../components/FeatureLineItem.astro';
-
-interface Event {
-  contentTypeId: 'events';
-  fields: {
-    eventName: EntryFieldTypes.Text;
-    date: EntryFieldTypes.Date;
-    location: EntryFieldTypes.Text;
-    googeMapsLink: EntryFieldTypes.Text;
-    details: EntryFieldTypes.RichText;
-  };
-}
+import type { Event } from '../lib/contentful';
 
 const entries = await contentfulClient.getEntries<Event>({
   content_type: 'events',
@@ -60,13 +49,7 @@ const title = 'Upcoming Events';
                   />
                 )}
               </div>
-              <a
-                class='arrow-link'
-                href={
-                  '/events/' +
-                  item.fields.eventName.replaceAll(' ', '-').toLowerCase()
-                }
-              >
+              <a class='arrow-link' href={`/events/${item.fields.slug}`}>
                 Details
                 <span class='arrow' />
               </a>
