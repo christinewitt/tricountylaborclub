@@ -55,6 +55,7 @@ export interface News {
     slug: EntryFieldTypes.Text;
     postTitle: EntryFieldTypes.Text;
     postDate: EntryFieldTypes.Date;
+    postImage: EntryFieldTypes.AssetLink;
     body: EntryFieldTypes.RichText;
   };
 }

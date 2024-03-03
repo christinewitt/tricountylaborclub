@@ -1,7 +1,6 @@
 ---
 import { contentfulClient } from '../../lib/contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-import { formatTime } from '../../lib/formatTime';
 import renderOptions from '../../lib/renderOptions';
 import type { News } from '../../lib/contentful';
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
@@ -11,8 +10,6 @@ import BreadcrumbsItem from '../../components/BreadcrumbsItem.astro';
 export async function getStaticPaths() {
   const { items } = await contentfulClient.getEntries<News>({
     content_type: 'news',
-    limit: 1,
-    include: 10,
   });
 
   return items.map((post) => {
@@ -21,6 +18,7 @@ export async function getStaticPaths() {
         post: post.fields.slug,
       },
       props: {
+        postImage: post.fields.postImage.fields.file.url,
         slug: post.fields.slug,
         postTitle: post.fields.postTitle,
         postDate: new Date(post.fields.postDate).toLocaleDateString('en-US', {
@@ -35,10 +33,15 @@ export async function getStaticPaths() {
   });
 }
 
-const { slug, postTitle, postDate, details } = Astro.props;
+const { details, postDate, postImage, postTitle, slug } = Astro.props;
 ---
 
-<DefaultLayout title={postTitle} description={details} url={slug}>
+<DefaultLayout
+  description={details}
+  image={postImage}
+  title={postTitle}
+  url={slug}
+>
   <Breadcrumbs>
     <BreadcrumbsItem href='/' label='Home' />
     <BreadcrumbsItem href='/news' label='News' />

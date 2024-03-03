@@ -1,12 +1,21 @@
 ---
-const { url = '#', img = '', title = 'Default title' } = Astro.props;
+const {
+  img = '',
+  postImageDescription = '',
+  title = 'Default title',
+  url = '#',
+} = Astro.props;
 ---
 
 <div class='card'>
   {
     img && (
       <div class='card__image'>
-        <img src={img} alt='' />
+        <img
+          alt={postImageDescription}
+          src={img}
+          title={postImageDescription}
+        />
       </div>
     )
   }
@@ -78,7 +87,7 @@ const { url = '#', img = '', title = 'Default title' } = Astro.props;
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border-radius: 1em 1em 0 0;
+    border-radius: 0.8em 0.8em 0 0;
   }
 
   .card__content {
