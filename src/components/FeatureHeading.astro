@@ -1,0 +1,31 @@
+---
+const { heading = 'Default title' } = Astro.props;
+---
+
+<h2 class='feature-heading'>{heading}</h2>
+
+<style>
+  .feature-heading {
+    text-align: center;
+  }
+
+  .feature-heading::after {
+    border-bottom: 4px solid var(--primary);
+    bottom: 0;
+    clear: both;
+    content: '';
+    display: block;
+    height: 1px;
+    left: 0;
+    margin: 0 auto;
+    padding: 0.5rem 0px;
+    position: relative;
+    width: 15%;
+  }
+
+  @media (max-width: 768px) {
+    .feature-heading::after {
+      width: 30%;
+    }
+  }
+</style>
