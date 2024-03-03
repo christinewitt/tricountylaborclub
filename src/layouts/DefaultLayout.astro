@@ -9,7 +9,7 @@ const {
   title = 'Tri-County Labor Club',
   description = 'Tri-County Labor Legislative Club: Joined together for labor',
   url,
-  image = '/joined-together.png',
+  image = 'joined-together.png',
 } = Astro.props;
 ---
 
@@ -43,7 +43,7 @@ const {
       url={url
         ? `https://tricountylaborclub.com/${url}`
         : Astro.site
-          ? `${Astro.site}/${title.toLowerCase().replaceAll(' ', '-')}`
+          ? `${Astro.site}${title.toLowerCase().replaceAll(' ', '-')}`
           : `https://tricountylaborclub.com/${title.toLowerCase().replaceAll(' ', '-')}`}
       image={image}
     />

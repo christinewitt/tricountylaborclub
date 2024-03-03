@@ -40,7 +40,7 @@ const { details, postDate, postImage, postTitle, slug } = Astro.props;
   description={details}
   image={postImage}
   title={postTitle}
-  url={slug}
+  url={`news/${slug}`}
 >
   <Breadcrumbs>
     <BreadcrumbsItem href='/' label='Home' />

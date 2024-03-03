@@ -22,13 +22,15 @@ let subtitle = 'Tri-County Labor Club';
 />
 
 <!-- twitter card -->
-<meta property='twitter:title' content={`${title} | ${subtitle}`} />
-<meta property='twitter:description' content={description} />
-<meta property='twitter:type' content='website' />
+<meta name='twitter:card' content='summary' />
+<meta name='twitter:title' content={`${title} | ${subtitle}`} />
+<meta name='twitter:description' content={description} />
+<meta name='twitter:type' content='website' />
 <meta
-  property='twitter:image'
+  name='twitter:image'
   content={Astro.site ? `${Astro.site}${image}` : image}
 />
+<meta name='twitter:url' content={url} />
 
 <!-- page title -->
 <title>{title} | {subtitle}</title>
