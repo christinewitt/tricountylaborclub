@@ -49,7 +49,7 @@ const { page } = Astro.props;
       <ul class='my-3'>
         {
           page.data
-            .sort((a, b) => b.postDate.localeCompare(a.postDate))
+            .sort((a, b) => a.postDate.localeCompare(b.postDate))
             .map((post) => (
               <li>
                 <Card url={'/news/' + post.slug} title={post.postTitle}>
