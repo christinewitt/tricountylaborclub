@@ -1,0 +1,61 @@
+---
+import { contentfulClient } from '../lib/contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import renderOptions from '../lib/renderOptions';
+import type { Endorsements } from '../lib/contentful';
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+
+const { items } = await contentfulClient.getEntries<Endorsements>({
+  content_type: 'endorsements',
+});
+
+const endorsements = items.map((item) => {
+  const { electionTitle, electionDate, pageImage, body } = item.fields;
+  const renderBody = documentToHtmlString(body, renderOptions);
+  return {
+    electionTitle,
+    electionDate: new Date(electionDate).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    pageImage: pageImage.fields.file.url,
+    body: renderBody,
+  };
+});
+
+const upcomingEndorsement = endorsements[0];
+---
+
+<DefaultLayout
+  description={upcomingEndorsement.electionTitle}
+  image={upcomingEndorsement.pageImage}
+  title={upcomingEndorsement.electionTitle}
+>
+  <section class='labor-club-page'>
+    <div class='space-content container'>
+      <h1>{upcomingEndorsement.electionTitle}</h1>
+      <div class='details' set:html={upcomingEndorsement.body} />
+    </div>
+  </section>
+</DefaultLayout>
+
+<style>
+  .labor-club-page {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  :global(.details > p) {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    margin: 1rem 0;
+  }
+  :global(h3) {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  :global(tr:nth-child(odd)) {
+    background-color: var(--neutral-300);
+  }
+</style>

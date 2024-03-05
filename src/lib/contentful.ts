@@ -8,6 +8,16 @@ export const contentfulClient = contentful.createClient({
   host: import.meta.env.DEV ? 'preview.contentful.com' : 'cdn.contentful.com',
 });
 
+export interface Endorsements {
+  contentTypeId: 'endorsements';
+  fields: {
+    electionTitle: EntryFieldTypes.Text;
+    electionDate: EntryFieldTypes.Date;
+    pageImage: EntryFieldTypes.AssetLink;
+    body: EntryFieldTypes.RichText;
+  };
+}
+
 export interface Event {
   contentTypeId: 'events';
   fields: {
