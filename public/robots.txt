@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://tricountylaborclub.com/sitemap-index.xml
