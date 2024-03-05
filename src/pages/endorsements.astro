@@ -10,7 +10,8 @@ const { items } = await contentfulClient.getEntries<Endorsements>({
 });
 
 const endorsements = items.map((item) => {
-  const { electionTitle, electionDate, pageImage, body } = item.fields;
+  const { electionTitle, electionDate, pageDescription, pageImage, body } =
+    item.fields;
   const renderBody = documentToHtmlString(body, renderOptions);
   return {
     electionTitle,
@@ -20,6 +21,7 @@ const endorsements = items.map((item) => {
       month: 'long',
       day: 'numeric',
     }),
+    pageDescription,
     pageImage: pageImage.fields.file.url,
     body: renderBody,
   };
@@ -29,7 +31,7 @@ const upcomingEndorsement = endorsements[0];
 ---
 
 <DefaultLayout
-  description={upcomingEndorsement.electionTitle}
+  description={upcomingEndorsement.pageDescription}
   title={upcomingEndorsement.electionTitle}
 >
   <section class='labor-club-page'>

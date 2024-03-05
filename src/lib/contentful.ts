@@ -13,6 +13,7 @@ export interface Endorsements {
   fields: {
     electionTitle: EntryFieldTypes.Text;
     electionDate: EntryFieldTypes.Date;
+    pageDescription: EntryFieldTypes.Text;
     pageImage: EntryFieldTypes.AssetLink;
     body: EntryFieldTypes.RichText;
   };
