@@ -12,7 +12,7 @@ export async function getStaticPaths({ paginate }) {
   });
 
   const pages = items.map((item) => ({
-    postImage: item.fields.postImage.fields.file.url,
+    postImage: item.fields.postImage.fields?.file.url,
     postImageDescription: item.fields.postImage.fields.description,
     slug: item.fields.slug,
     postTitle: item.fields.postTitle,
@@ -23,7 +23,14 @@ export async function getStaticPaths({ paginate }) {
       day: 'numeric',
     }),
   }));
-  return paginate(pages, { pageSize: 9 });
+
+  const sortedData = pages.sort((a, b) => {
+    const dateA = new Date(a.postDate);
+    const dateB = new Date(b.postDate);
+    return +dateA + +dateB;
+  });
+
+  return paginate(sortedData, { pageSize: 9 });
 }
 
 const { page } = Astro.props;
@@ -48,23 +55,21 @@ const { page } = Astro.props;
       </p>
       <ul class='my-3'>
         {
-          page.data
-            .sort((a, b) => a.postDate.localeCompare(b.postDate))
-            .map((post) => (
-              <li>
-                <Card
-                  img={post.postImage}
-                  postImageDescription={post.postImageDescription}
-                  title={post.postTitle}
-                  url={'/news/' + post.slug}
-                >
-                  <FeatureLineItem
-                    field={post.postDate}
-                    image='/icons/calendar.svg'
-                  />
-                </Card>
-              </li>
-            ))
+          page.data.map((post) => (
+            <li>
+              <Card
+                img={post.postImage}
+                postImageDescription={post.postImageDescription}
+                title={post.postTitle}
+                url={'/news/' + post.slug}
+              >
+                <FeatureLineItem
+                  field={post.postDate}
+                  image='/icons/calendar.svg'
+                />
+              </Card>
+            </li>
+          ))
         }
       </ul>
       <div class='pagination'>
