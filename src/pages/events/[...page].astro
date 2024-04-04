@@ -85,7 +85,7 @@ const { page } = Astro.props;
             ? `/events/${Math.round(page.total / page.size)}`
             : null}
           currentPage={page.currentPage}
-          totalPages={Math.round(page.total / page.size)}
+          totalPages={Math.ceil(page.total / page.size)}
         />
       </div>
     </div>
