@@ -13,10 +13,14 @@ export async function getStaticPaths({ paginate }) {
     content_type: 'events',
   });
 
-  const pages = items.map((item) => ({
+  const sortedItems = items.sort(
+    (a, b) => new Date(b.fields.date) - new Date(a.fields.date)
+  );
+
+  const pages = sortedItems.map((item) => ({
     slug: item.fields.slug,
     title: item.fields.eventName,
-    unformattedDate: item.fields.date,
+    unformattedDate: new Date(item.fields.date),
     date: new Date(item.fields.date).toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
@@ -27,6 +31,7 @@ export async function getStaticPaths({ paginate }) {
     location: item.fields.location,
     content: documentToHtmlString(item.fields.details),
   }));
+
   return paginate(pages, { pageSize: 9 });
 }
 
@@ -52,28 +57,26 @@ const { page } = Astro.props;
       </p>
       <ul class='my-3'>
         {
-          page.data
-            .sort((a, b) => b.unformattedDate.localeCompare(a.unformattedDate))
-            .map((post) => (
-              <li>
-                <Card url={'/events/' + post.slug} title={post.title}>
+          page.data.map((post) => (
+            <li>
+              <Card url={'/events/' + post.slug} title={post.title}>
+                <FeatureLineItem
+                  field={post.date}
+                  image='/icons/calendar.svg'
+                />
+                <FeatureLineItem
+                  field={formatTime(post.time)}
+                  image='/icons/clock.svg'
+                />
+                {post.location && (
                   <FeatureLineItem
-                    field={post.date}
-                    image='/icons/calendar.svg'
+                    field={post.location}
+                    image='/icons/location.svg'
                   />
-                  <FeatureLineItem
-                    field={formatTime(post.time)}
-                    image='/icons/clock.svg'
-                  />
-                  {post.location && (
-                    <FeatureLineItem
-                      field={post.location}
-                      image='/icons/location.svg'
-                    />
-                  )}
-                </Card>
-              </li>
-            ))
+                )}
+              </Card>
+            </li>
+          ))
         }
       </ul>
       <div class='pagination'>
