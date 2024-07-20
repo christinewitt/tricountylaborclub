@@ -21,8 +21,17 @@ const renderOptions = {
     //   }
     // },
     [BLOCKS.EMBEDDED_ASSET]: function (node, children) {
+      if (node.data.target.fields.file.contentType === 'application/pdf') {
+        return `<a href="https://${node.data.target.fields.file.url}" target="_blank" rel="noopener noreferrer">${node.data.target.fields.title}</a>`;
+      }
+
       return `<img src="https://${node.data.target.fields.file.url}" height="${node.data.target.fields.file.details.image.height}" width="${node.data.target.fields.file.details.image.width}" alt="${node.data.target.fields.description}"
       title="${node.data.target.fields.description}" class="post-image">`;
+    },
+    [INLINES.ASSET_HYPERLINK]: function (node, children) {
+      if (node.data.target.fields.file.contentType === 'application/pdf') {
+        return `<a href="https://${node.data.target.fields.file.url}" target="_blank" rel="noopener noreferrer">${node.data.target.fields.title}</a>`;
+      }
     },
   },
 };
