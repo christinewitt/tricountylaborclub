@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.1.6",
-    "@astrojs/vercel": "^7.7.2",
-    "@contentful/rich-text-html-renderer": "^16.6.6",
+    "@astrojs/vercel": "^7.8.1",
+    "@contentful/rich-text-html-renderer": "^16.6.10",
     "@vercel/speed-insights": "^1.0.12",
-    "astro": "^4.12.2",
+    "astro": "^4.15.9",
     "contentful": "^10.12.13"
   }
 }
