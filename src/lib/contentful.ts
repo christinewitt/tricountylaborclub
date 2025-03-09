@@ -1,4 +1,5 @@
-import contentful, { type EntryFieldTypes } from 'contentful';
+import * as contentful from 'contentful';
+import type { EntryFieldTypes } from 'contentful';
 
 export const contentfulClient = contentful.createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
