@@ -13,9 +13,13 @@ export async function getStaticPaths({ paginate }) {
     content_type: 'events',
   });
 
-  const sortedItems = items.sort(
-    (a, b) => new Date(b.fields.date) - new Date(a.fields.date)
-  );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set to start of day for comparison
+
+  // Filter out past events and sort in ascending order (earliest first)
+  const sortedItems = items
+    .filter((item) => new Date(item.fields.date) >= today)
+    .sort((a, b) => new Date(a.fields.date) - new Date(b.fields.date));
 
   const pages = sortedItems.map((item) => ({
     slug: item.fields.slug,
