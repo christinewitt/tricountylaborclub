@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 const { title, description, url, image } = Astro.props;
 const isExternalImage = image.startsWith('//');
@@ -35,4 +35,4 @@ const subtitle = 'Tri-County Labor Club';
 <!-- page title -->
 <title>{title} | {subtitle}</title>
 
-<ViewTransitions />
+<ClientRouter />
