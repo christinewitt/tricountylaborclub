@@ -3,7 +3,6 @@ import DefaultLayout from '../layouts/DefaultLayout.astro';
 import Hero from '../components/Hero.astro';
 import Image from 'astro/components/Image.astro';
 import logo from '../assets/img/tricotri.png';
-import no from '../assets/img/vote-no.jpg';
 import Section from '../components/Section.astro';
 import UpcomingEvents from '../components/UpcomingEvents.astro';
 import CallToAction from '../components/CallToAction.astro';
@@ -40,15 +39,6 @@ import CallToAction from '../components/CallToAction.astro';
     </div>
   </Section>
   <UpcomingEvents title='Upcoming Events' />
-  <Image
-    alt='Vote NO on amendment 4 & 5'
-    class='vote-no'
-    height='500'
-    loading='eager'
-    src={no}
-    title='Vote NO on amendment 4 & 5 on August 4, 2026'
-    width='500'
-  />
   <CallToAction />
 </DefaultLayout>
 
@@ -66,14 +56,5 @@ import CallToAction from '../components/CallToAction.astro';
     @media (min-width: 768px) {
       flex: 1;
     }
-  }
-
-  .vote-no {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 6rem;
   }
 </style>
